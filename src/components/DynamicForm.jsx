@@ -112,9 +112,12 @@ export default function DynamicForm({ formData }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validate all fields
+    // Validate all fields (except info fields which are just display-only)
     const newErrors = {};
     formConfig.fields.forEach(field => {
+      // Skip validation for info fields
+      if (field.type === 'info') return;
+
       const fieldName = field.mappedField || field.name || field.id;
       const value = formValues[fieldName];
       const error = validateField(field, value);
@@ -185,6 +188,14 @@ export default function DynamicForm({ formData }) {
     };
 
     switch (field.type) {
+      case 'info':
+        // Info fields don't collect data, just display text
+        return (
+          <div className="info-text">
+            {field.infoText}
+          </div>
+        );
+
       case 'textarea':
         return (
           <textarea
@@ -305,11 +316,20 @@ export default function DynamicForm({ formData }) {
                   gridColumn: `span ${field.columnSpan}`,
                 }}
               >
-                {field.label && (
-                  <label htmlFor={field.id} className="field-label">
-                    {field.label}
-                    {field.required && <span className="required">*</span>}
-                  </label>
+                {/* Info fields show label as heading, other fields show as label */}
+                {field.type === 'info' ? (
+                  field.label && (
+                    <h3 className="text-base font-semibold text-gray-900 mb-2">
+                      {field.label}
+                    </h3>
+                  )
+                ) : (
+                  field.label && (
+                    <label htmlFor={field.id} className="field-label">
+                      {field.label}
+                      {field.required && <span className="required">*</span>}
+                    </label>
+                  )
                 )}
 
                 {renderField(field)}

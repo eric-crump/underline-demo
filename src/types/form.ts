@@ -16,7 +16,7 @@ export interface ValidationRules {
 export interface FormField {
   id: string;
   name?: string;
-  type: 'text' | 'email' | 'tel' | 'number' | 'textarea' | 'select' | 'radio' | 'checkbox' | 'date';
+  type: 'text' | 'email' | 'tel' | 'number' | 'textarea' | 'select' | 'radio' | 'checkbox' | 'date' | 'info';
   label: string;
   placeholder?: string;
   required?: boolean;
@@ -27,6 +27,7 @@ export interface FormField {
   validation?: ValidationRules;
   dateFormat?: string;       // For date fields (e.g., "MM/DD/YYYY")
   showDateFormatHelper?: boolean; // Show format hint below date field
+  infoText?: string;         // For info fields - the informational text to display
 }
 
 // Submit configuration

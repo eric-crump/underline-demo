@@ -114,6 +114,11 @@
     @apply text-sm text-red-500;
   }
 
+  /* Info Text Block */
+  .info-text {
+    @apply text-sm text-gray-700 leading-relaxed whitespace-pre-wrap;
+  }
+
   /* Alerts */
   .alert {
     @apply p-4 rounded-md text-sm;
