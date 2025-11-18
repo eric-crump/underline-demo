@@ -15,6 +15,7 @@ export default function Footer({ locale }) {
       const data = await ContentstackClient.getElementByType("footer", locale, null);
       if (data) {
         setFooterData(data[0]);
+        console.log("footer", data[0]);
       } else {
         setFooterData(null);
       }
