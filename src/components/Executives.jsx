@@ -3,8 +3,8 @@ import { useState, useEffect } from "react";
 import { fetchWebServiceData } from "@/utils/webServiceApi";
 
 /**
- * Executives Component
- * Fetches and displays company executives from a web service endpoint via secure backend proxy
+ * Web Service Data Component
+ * Fetches and displays data from a web service endpoint via secure backend proxy
  * Headers and API keys are never exposed to the frontend - handled securely server-side
  * 
  * @param {Object} props.executivesData - Web service configuration from Contentstack
@@ -12,7 +12,7 @@ import { fetchWebServiceData } from "@/utils/webServiceApi";
  * @param {string} props.executivesData.componentKey - Component key identifier
  */
 export default function Executives({ executivesData }) {
-  const [executives, setExecutives] = useState([]);
+  const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -44,16 +44,16 @@ export default function Executives({ executivesData }) {
 
           // Handle different response formats
           if (data.success && Array.isArray(data.data)) {
-            setExecutives(data.data);
+            setData(data.data);
           } else if (Array.isArray(data)) {
-            setExecutives(data);
+            setData(data);
           } else if (data.data && Array.isArray(data.data)) {
-            setExecutives(data.data);
+            setData(data.data);
           } else {
             // If data exists but isn't in expected format, try to extract array
             const possibleArray = data.data || data;
             if (Array.isArray(possibleArray)) {
-              setExecutives(possibleArray);
+              setData(possibleArray);
             } else {
               console.warn('Unexpected response format:', data);
               setError("Received data in an unexpected format");
@@ -64,9 +64,9 @@ export default function Executives({ executivesData }) {
           setError("Invalid response from server");
         }
       } catch (err) {
-        console.error('Error fetching executives:', err);
+        console.error('Error fetching web service data:', err);
         // Use the error message from the API utility, or provide a fallback
-        const errorMessage = err.message || 'Failed to load executives. Please check your web service configuration.';
+        const errorMessage = err.message || 'Failed to load data. Please check your web service configuration.';
         setError(errorMessage);
         // Ensure we always set loading to false, even on error
         setLoading(false);
@@ -83,7 +83,7 @@ export default function Executives({ executivesData }) {
       <div className="mb-8">
         <div className="container mx-auto px-4">
           <div className="text-center py-12">
-            <p className="text-gray-600">Loading executives...</p>
+            <p className="text-gray-600">Loading data...</p>
           </div>
         </div>
       </div>
@@ -95,7 +95,7 @@ export default function Executives({ executivesData }) {
       <div className="mb-8">
         <div className="container mx-auto px-4">
           <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
-            <p className="text-yellow-800 font-semibold mb-1">Unable to Load Executives</p>
+            <p className="text-yellow-800 font-semibold mb-1">Unable to Load Data</p>
             <p className="text-yellow-700 text-sm">{error}</p>
             <p className="text-yellow-600 text-xs mt-2">
               This section will not be displayed until the web service is properly configured.
@@ -106,12 +106,12 @@ export default function Executives({ executivesData }) {
     );
   }
 
-  if (!executives || executives.length === 0) {
+  if (!data || data.length === 0) {
     return (
       <div className="mb-8">
         <div className="container mx-auto px-4">
           <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
-            <p className="text-gray-600 text-center">No executives found</p>
+            <p className="text-gray-600 text-center">No data found</p>
           </div>
         </div>
       </div>
@@ -123,7 +123,7 @@ export default function Executives({ executivesData }) {
       <div className="container mx-auto px-4">
         <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">Our Leadership Team</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
-          {executives.map((executive, index) => (
+          {data.map((executive, index) => (
             <div
               key={executive.id || index}
               className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"

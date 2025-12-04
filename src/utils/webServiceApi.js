@@ -3,7 +3,7 @@
  * Headers and API keys are never exposed to the frontend
  */
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3008';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://web-production-e8736.up.railway.app';
 
 /**
  * Fetch data from a web service via the secure backend proxy

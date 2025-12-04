@@ -1,7 +1,7 @@
 "use client";
 import Contentstack from 'contentstack';
 import { inLivePreview } from '@/utils/lp';
-import {addEditableTags} from '@contentstack/utils';
+import { addEditableTags } from '@contentstack/utils';
 
 const Stack = Contentstack.Stack({
     api_key: '',
@@ -25,25 +25,25 @@ const getLocaleForURL = () => {
 let ContentstackLivePreview = null;
 
 if (process.env.LIVE_PREVIEW_ENABLED === "true") {
-//dynamic import for live preview if in live preview
-const LivePreviewModule = await import('@contentstack/live-preview-utils');
-ContentstackLivePreview = LivePreviewModule.default;
+    //dynamic import for live preview if in live preview
+    const LivePreviewModule = await import('@contentstack/live-preview-utils');
+    ContentstackLivePreview = LivePreviewModule.default;
 
-ContentstackLivePreview.init({
-    enable: 'true',
-    ssr: false,
-    mode: 'preview',
-    stackSdk: Stack,
-    clientUrlParams: {
-        protocol: "https",
-        host: "app.contentstack.com",
-        port: 443,
-    },
-    stackDetails: {
-        apiKey: process.env.CONTENTSTACK_API_KEY,
-        environment: process.env.CONTENTSTACK_ENVIRONMENT,
-        branch: process.env.CONTENTSTACK_BRANCH ? process.env.CONTENTSTACK_BRANCH : 'main',
-        locale: getLocaleForURL()
+    ContentstackLivePreview.init({
+        enable: 'true',
+        ssr: false,
+        mode: 'preview',
+        stackSdk: Stack,
+        clientUrlParams: {
+            protocol: "https",
+            host: "app.contentstack.com",
+            port: 443,
+        },
+        stackDetails: {
+            apiKey: process.env.CONTENTSTACK_API_KEY,
+            environment: process.env.CONTENTSTACK_ENVIRONMENT,
+            branch: process.env.CONTENTSTACK_BRANCH ? process.env.CONTENTSTACK_BRANCH : 'main',
+            locale: getLocaleForURL()
         },
     });
 }
@@ -61,7 +61,7 @@ const getSearchQueryParams = () => {
 };
 
 export const ContentstackClient = {
-    onEntryChange: function(callback) {
+    onEntryChange: function (callback) {
         if (inLivePreview() && ContentstackLivePreview) {
             return ContentstackLivePreview.onEntryChange(callback);
         } else {
@@ -84,7 +84,7 @@ export const ContentstackClient = {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ id, type, locale, live_preview: (searchQueryParams.live_preview || searchQueryParams.hash) ? searchQueryParams : (Stack.live_preview.hash) ? Stack.live_preview : null })
             });
-            if(res.ok) {
+            if (res.ok) {
                 data = await res.json();
             } else {
                 data = null;
@@ -111,7 +111,7 @@ export const ContentstackClient = {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ id, type, locale, references, live_preview: (searchQueryParams.live_preview || searchQueryParams.hash) ? searchQueryParams : (Stack.live_preview.hash) ? Stack.live_preview : null })
             });
-            if(res.ok) {
+            if (res.ok) {
                 data = await res.json();
             } else {
                 data = null;
@@ -138,7 +138,7 @@ export const ContentstackClient = {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ type, url, locale, live_preview: (searchQueryParams.live_preview || searchQueryParams.hash) ? searchQueryParams : (Stack.live_preview.hash) ? Stack.live_preview : null })
             });
-            if(res.ok) {
+            if (res.ok) {
                 data = await res.json();
             } else {
                 data = null;
@@ -165,7 +165,7 @@ export const ContentstackClient = {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ type, url, locale, references, live_preview: (searchQueryParams.live_preview || searchQueryParams.hash) ? searchQueryParams : (Stack.live_preview.hash) ? Stack.live_preview : null })
             });
-            if(res.ok) {
+            if (res.ok) {
                 data = await res.json();
             } else {
                 data = null;
@@ -187,12 +187,13 @@ export const ContentstackClient = {
         if (initialData && !inLivePreview()) {
             data = initialData;
         } else {
+            console.log("args", type, locale);
             const res = await fetch(`/api/contentstack/getElementByType`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ type, locale, live_preview: (searchQueryParams.live_preview || searchQueryParams.hash) ? searchQueryParams : (Stack.live_preview.hash) ? Stack.live_preview : null })
             });
-            if(res.ok) {
+            if (res.ok) {
                 data = await res.json();
             } else {
                 data = null;
@@ -222,7 +223,7 @@ export const ContentstackClient = {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ type, locale, references, live_preview: (searchQueryParams.live_preview || searchQueryParams.hash) ? searchQueryParams : (Stack.live_preview.hash) ? Stack.live_preview : null })
             });
-            if(res.ok) {
+            if (res.ok) {
                 data = await res.json();
             } else {
                 data = null;
@@ -252,7 +253,7 @@ export const ContentstackClient = {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ type, locale, term, live_preview: (searchQueryParams.live_preview || searchQueryParams.hash) ? searchQueryParams : (Stack.live_preview.hash) ? Stack.live_preview : null })
             });
-            if(res.ok) {
+            if (res.ok) {
                 data = await res.json();
             } else {
                 data = null;
@@ -282,7 +283,7 @@ export const ContentstackClient = {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ type, url, locale, live_preview: (searchQueryParams.live_preview || searchQueryParams.hash) ? searchQueryParams : (Stack.live_preview.hash) ? Stack.live_preview : null })
             });
-            if(res.ok) {
+            if (res.ok) {
                 data = await res.json();
             } else {
                 data = null;
@@ -308,7 +309,7 @@ export const ContentstackClient = {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ type, url, locale, live_preview: (Stack.live_preview.hash) ? Stack.live_preview : null })
             });
-            if(res.ok) {
+            if (res.ok) {
                 data = await res.json();
             } else {
                 data = null;
@@ -335,7 +336,7 @@ export const ContentstackClient = {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ type, locale, term, references, live_preview: (searchQueryParams.live_preview || searchQueryParams.hash) ? searchQueryParams : (Stack.live_preview.hash) ? Stack.live_preview : null })
             });
-            if(res.ok) {
+            if (res.ok) {
                 data = await res.json();
             } else {
                 data = null;

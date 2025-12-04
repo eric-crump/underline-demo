@@ -2,7 +2,7 @@
  * API utility for form submission to the Groundwork backend
  */
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3008';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://web-production-e8736.up.railway.app';
 
 /**
  * Submit form data to the backend API
